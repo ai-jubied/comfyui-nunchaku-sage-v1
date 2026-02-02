@@ -1,4 +1,4 @@
-# ⚡ ComfyUI Nunchaku-Sage [Premium]
+# ⚡ ComfyUI Nunchaku-SageAttention2-AiToolkit [Premium]
 
 > **The Ultimate High-Performance ComfyUI Template for RunPod**  
 > *Featuring SageAttention, Nunchaku & ComfyUI Manager Pre-installed.*
