@@ -237,10 +237,6 @@ else
     pip install sageattention==1.0.6
 fi
 
-    echo "Installing sageattention from pip"
-    pip install sageattention==1.0.6
-fi
-
 # --- [PREMIUM] Install Nunchaku ---
 if [[ -x "/scripts/install_nunchaku.sh" ]]; then
     /scripts/install_nunchaku.sh
@@ -341,65 +337,7 @@ if [[ -n "${PUBLIC_KEY:-}" ]]; then
   service ssh start
 fi
 
-# --- AI Toolkit isolated install/update + UI (background) ---
-AITK_DIR="/workspace/ai-toolkit"
-AITK_REPO_DIR="$AITK_DIR/repo"
-AITK_VENV="$AITK_DIR/venv"
-AITK_REPO_URL="${AITK_REPO_URL:-https://github.com/ostris/ai-toolkit.git}"
-AITK_UI_PORT="${AITK_UI_PORT:-8675}"
-
-start_ai_toolkit_stack() {
-  set +e
-  echo "[ai-toolkit] setting up in $AITK_DIR" > /ai_toolkit_setup.log
-  mkdir -p "$AITK_DIR"
-
-  if [[ ! -d "$AITK_REPO_DIR/.git" ]]; then
-    echo "[ai-toolkit] cloning repo…" >> /ai_toolkit_setup.log
-    git clone --depth 1 "$AITK_REPO_URL" "$AITK_REPO_DIR" >> /ai_toolkit_setup.log 2>&1 || true
-  else
-    echo "[ai-toolkit] updating repo…" >> /ai_toolkit_setup.log
-    git -C "$AITK_REPO_DIR" pull --ff-only >> /ai_toolkit_setup.log 2>&1 || true
-  fi
-
-  if [[ ! -d "$AITK_VENV" ]]; then
-    echo "[ai-toolkit] creating venv at $AITK_VENV" >> /ai_toolkit_setup.log
-    python3 -m venv "$AITK_VENV" --system-site-packages >> /ai_toolkit_setup.log 2>&1 || true
-  fi
-
-  # Pip/bootstrap inside isolated venv (reusing system PyTorch via --system-site-packages)
-  "$AITK_VENV/bin/python" -m pip install --upgrade pip wheel setuptools >> /ai_toolkit_setup.log 2>&1 || true
-
-  if [[ -f "$AITK_REPO_DIR/requirements.txt" ]]; then
-    echo "[ai-toolkit] installing requirements (excluding torch/vision/audio to keep your version)…" >> /ai_toolkit_setup.log
-    tmp_req="$AITK_DIR/requirements.no-torch.txt"
-    grep -Ev '^(torch|torchvision|torchaudio)($|[<>=])' "$AITK_REPO_DIR/requirements.txt" > "$tmp_req" || cp "$AITK_REPO_DIR/requirements.txt" "$tmp_req"
-    "$AITK_VENV/bin/python" -m pip install -r "$tmp_req" >> /ai_toolkit_setup.log 2>&1 || true
-  fi
-
-  # Skip editable install to avoid pulling conflicting torch deps; UI runs via Node
-
-  # Build and run UI (Node)
-  if [[ -f "$AITK_REPO_DIR/ui/package.json" ]]; then
-    echo "[ai-toolkit] installing UI dependencies (incl. dev) ..." >> /ai_toolkit_setup.log
-    (cd "$AITK_REPO_DIR/ui" && npm install --include=dev >> /ai_toolkit_setup.log 2>&1)
-    echo "[ai-toolkit] updating DB (prisma) and building UI..." >> /ai_toolkit_setup.log
-    (cd "$AITK_REPO_DIR/ui" && npm run update_db >> /ai_toolkit_setup.log 2>&1)
-    (cd "$AITK_REPO_DIR/ui" && npm run build >> /ai_toolkit_setup.log 2>&1)
-    echo "[ai-toolkit] starting UI on :$AITK_UI_PORT (PATH prefixed with venv)" >> /ai_toolkit_setup.log
-    (cd "$AITK_REPO_DIR/ui" && env \
-        PATH="$AITK_VENV/bin:$PATH" \
-        VIRTUAL_ENV="$AITK_VENV" \
-        PYTHON="$AITK_VENV/bin/python" \
-        PORT="$AITK_UI_PORT" \
-        npm run start >> /ai_toolkit_ui.log 2>&1)
-  else
-    echo "[ai-toolkit] ui/package.json not found; skipping UI start" >> /ai_toolkit_setup.log
-  fi
-  # restore -e for the rest of the script
-  set -e
-}
-
-# --- Start jupyterr ---
+# --- Start jupyter ---
 cd /
 jupyter lab \
   --ip=0.0.0.0 \
@@ -416,8 +354,6 @@ jupyter lab \
 
 # Start filebrowser
 filebrowser --address=0.0.0.0 --port=8080 --root=/workspace/ --noauth &
-
-service nginx start
 
 echo "JupyterLab and Filebrowser started; nginx up."
 
