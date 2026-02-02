@@ -11,8 +11,7 @@ This is not just another ComfyUI clone. It is a **highly optimized, production-r
 ### ✨ Key Features
 - **🔥 SageAttention**: Extreme speed optimizations for Attention layers.
 - **⚔️ Nunchaku**: Advanced node support for cutting-edge workflows.
-- **🛠️ ComfyUI Manager**: **Pre-installed!** Manage your nodes easily from the start.
-- **📊 Resource Monitor**: Integrated System Monitor (Crystools) to track VRAM/RAM usage.
+- **💎 AI Toolkit**: **Premium LoRA Trainer** - Integrated Ostris AI Toolkit for professional training (Port `8675`).
 
 ---
 
