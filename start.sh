@@ -182,7 +182,7 @@ update_and_install_requirements() {
 
 # --- First boot: persist ComfyUI into /workspace and fetch taesd ---
 if [[ ! -d /workspace/ComfyUI && -d /Comfy ]]; then
-  if [[ ! -f /Comfy/models/checkpoints/taew2_1.safetensors ]]; then
+  if [[ ! -f /Comfy/models/vae_approx/taew2_1.safetensors ]]; then
     mkdir -p /Comfy/models/vae_approx
     curl -L \
       https://huggingface.co/Kijai/WanVideo_comfy/resolve/main/taew2_1.safetensors \
