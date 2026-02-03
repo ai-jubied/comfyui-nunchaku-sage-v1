@@ -7,15 +7,17 @@
 
 ## 🚀 Overview
 
-Experience the fastest stable diffusion workflows with **SageAttention** 2.0 (Int8/Open) and **Nunchaku** pre-installed. This template is engineered to minimize latency and maximize throughput on NVIDIA Ada/Hopper GPUs.
+**The Fastest ComfyUI Template on RunPod.**  
+Experience ultra-low latency generation for **Stable Diffusion 3.5**, **Flux.1**, **SDXL**, and video workflows.
 
-We've integrated the **Ostris AI Toolkit** for seamless LoRA training directly within your pod.
+Built with **SageAttention 2.0** and **Nunchaku** pre-installed, this image is optimized for NVIDIA Ada/Hopper GPUs (RTX 4090, A100, H100) to deliver maximum tokens/second. We've also integrated the **Ostris AI Toolkit** for seamless **LoRA Training** directly in your browser.
 
 ## ✨ Premium Features
 
-*   **🔥 SageAttention**: Blazing fast attention kernels providing up to 2x speedups.
-*   **⚔️ Nunchaku**: Cutting-edge node support for advanced architecture workflows.
-*   **💎 AI Toolkit Included**: Full GUI for LoRA training available on a dedicated port.
+*   **🔥 SageAttention**: Blazing fast attention kernels (up to 2x speedup for Flux/SD3).
+*   **⚔️ Nunchaku**: Support for advanced quantization and architecture optimization.
+*   **💎 AI Toolkit**: Professional GUI for training LoRAs on your own datasets.
+*   **⚡ Zero-Setup**: **Crystools**, **Manager**, and **Civitai** integration ready out-of-the-box.
 *   **📂 Persistent Workspace**: All your models, workflows, and output images in `/workspace` are safe.
 
 ---
