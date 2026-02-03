@@ -39,6 +39,9 @@ RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1
 # Install Pip for Python 3.12
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
 
+# Install PyTorch (required for GPU check in start.sh)
+RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
+
 # Install NVM and Node.js (matching version v25.4.0 from env)
 ENV NVM_DIR=/root/.nvm
 RUN mkdir -p $NVM_DIR \
