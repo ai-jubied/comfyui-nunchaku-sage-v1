@@ -76,7 +76,8 @@ RUN cd /Comfy/custom_nodes && \
     git clone https://github.com/ltdrdata/ComfyUI-Manager.git && \
     git clone https://github.com/crystian/ComfyUI-Crystools.git && \
     git clone https://github.com/jnxmx/ComfyUI_HuggingFace_Downloader.git && \
-    git clone https://github.com/MoonGoblinDev/Civicomfy.git
+    git clone https://github.com/MoonGoblinDev/Civicomfy.git && \
+    for d in *; do if [ -f "$d/requirements.txt" ]; then pip install --no-cache-dir -r "$d/requirements.txt"; fi; done
 
 # Copy local artifacts
 COPY wheels /wheels
