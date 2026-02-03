@@ -67,7 +67,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Clone ComfyUI to /Comfy
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git /Comfy
+RUN git clone https://github.com/comfyanonymous/ComfyUI.git /Comfy && \
+    cd /Comfy && \
+    pip install --no-cache-dir -r requirements.txt
 
 # [PREMIUM] Pre-install ComfyUI Manager & Crystools & Extra Nodes
 RUN cd /Comfy/custom_nodes && \
