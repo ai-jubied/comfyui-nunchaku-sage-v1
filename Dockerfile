@@ -42,17 +42,17 @@ RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
 # Install PyTorch (required for GPU check in start.sh)
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
 
-# Install NVM and Node.js (LTS v22.22.1)
+# Install NVM and Node.js (LTS v22.22.0)
 ENV NVM_DIR=/root/.nvm
 RUN mkdir -p $NVM_DIR \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
-    && nvm install v22.22.1 \
-    && nvm alias default v22.22.1 \
+    && nvm install v22.22.0 \
+    && nvm alias default v22.22.0 \
     && nvm use default
 
 # Add Node to PATH
-ENV PATH=$NVM_DIR/versions/node/v22.22.1/bin:$PATH
+ENV PATH=$NVM_DIR/versions/node/v22.22.0/bin:$PATH
 
 # Install Filebrowser
 RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash

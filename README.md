@@ -145,7 +145,7 @@ Everything in `/workspace` survives pod restarts:
 | Base Image | `nvidia/cuda:12.6.1-cudnn-devel-ubuntu22.04` |
 | Python | 3.12 |
 | PyTorch | 2.x (CUDA 12.4) |
-| Node.js | 22.22.1 LTS |
+| Node.js | 22.22.0 LTS |
 | SageAttention | 2.2.0 |
 | Nunchaku | 1.2.1 |
 | ComfyUI | Latest (auto-updated) |
