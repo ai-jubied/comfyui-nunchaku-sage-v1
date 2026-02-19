@@ -216,7 +216,7 @@ if not torch.cuda.is_available():
     print("none")
     exit(0)
 cap = torch.cuda.get_device_capability()[0] * 10 + torch.cuda.get_device_capability()[1]
-arch_map = {120: "sm120", 86: "sm86", 89: "sm89"}
+arch_map = {120: "sm120", 89: "sm89", 86: "sm86"}
 print(arch_map.get(cap, "none"))
 EOF
 )
@@ -229,12 +229,12 @@ if [ "$ARCH" != "none" ]; then
         pip install --no-deps "$WHEEL_FILE"
     else
         echo "No matching wheel found for architecture $ARCH, falling back to pip"
-        pip install sageattention==1.0.6
+        pip install sageattention==2.2.0
     fi
 else
     echo "STAGE: Installing sageattention"
     echo "Installing sageattention from pip"
-    pip install sageattention==1.0.6
+    pip install sageattention==2.2.0
 fi
 
 # --- [PREMIUM] Install Nunchaku ---

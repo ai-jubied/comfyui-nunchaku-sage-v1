@@ -42,17 +42,17 @@ RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.12
 # Install PyTorch (required for GPU check in start.sh)
 RUN pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu124
 
-# Install NVM and Node.js (matching version v25.4.0 from env)
+# Install NVM and Node.js (LTS v22.22.1)
 ENV NVM_DIR=/root/.nvm
 RUN mkdir -p $NVM_DIR \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash \
     && . $NVM_DIR/nvm.sh \
-    && nvm install v25.4.0 \
-    && nvm alias default v25.4.0 \
+    && nvm install v22.22.1 \
+    && nvm alias default v22.22.1 \
     && nvm use default
 
 # Add Node to PATH
-ENV PATH=$NVM_DIR/versions/node/v25.4.0/bin:$PATH
+ENV PATH=$NVM_DIR/versions/node/v22.22.1/bin:$PATH
 
 # Install Filebrowser
 RUN curl -fsSL https://raw.githubusercontent.com/filebrowser/get/master/get.sh | bash
@@ -73,7 +73,7 @@ RUN git clone https://github.com/comfyanonymous/ComfyUI.git /Comfy && \
 
 # [PREMIUM] Pre-install ComfyUI Manager & Crystools & Extra Nodes
 RUN cd /Comfy/custom_nodes && \
-    git clone https://github.com/ltdrdata/ComfyUI-Manager.git && \
+    git clone https://github.com/Comfy-Org/ComfyUI-Manager.git && \
     git clone https://github.com/crystian/ComfyUI-Crystools.git && \
     git clone https://github.com/jnxmx/ComfyUI_HuggingFace_Downloader.git && \
     git clone https://github.com/MoonGoblinDev/Civicomfy.git && \
