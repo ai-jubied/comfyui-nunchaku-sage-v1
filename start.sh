@@ -309,6 +309,10 @@ if [[ -d /workspace/ComfyUI ]]; then
   echo "STAGE: Updating ComfyUI core"
   update_and_install_requirements /workspace/ComfyUI || true
 
+  # Update the frontend package (no longer bundled in the repo)
+  echo "STAGE: Updating ComfyUI frontend"
+  pip install --upgrade comfyui-frontend-package >> /server.log 2>&1 || true
+
   echo "STAGE: Updating custom nodes"
   if command -v comfy >/dev/null 2>&1; then
     # Use cache mode to reduce remote registry fetches; hide noisy cm-cli banners
