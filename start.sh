@@ -130,8 +130,10 @@ start_ai_toolkit_stack() {
         PATH="$AITK_VENV/bin:$PATH" \
         VIRTUAL_ENV="$AITK_VENV" \
         PYTHON="$AITK_VENV/bin/python" \
+        HOST="0.0.0.0" \
         PORT="$AITK_UI_PORT" \
-        npm run start >> /ai_toolkit_ui.log 2>&1)
+        npm run start >> /ai_toolkit_ui.log 2>&1) &
+    wait
   else
     echo "[ai-toolkit] ui/package.json not found; skipping UI start" >> /ai_toolkit_setup.log
   fi
@@ -367,8 +369,7 @@ if [[ -n "${COMFY_PLACEHOLDER_PID:-}" ]]; then
 fi
 echo "STAGE: Starting ComfyUI"
 "$VIRTUAL_ENV/bin/python" main.py \
-  --listen 0.0.0.0 --port 8188 # \
-#  --preview-method taesd # \
-#  --front-end-version Comfy-Org/ComfyUI_frontend@latest &
+  --listen 0.0.0.0 --port 8188 \
+  --use-sage-attention
 
 sleep infinity
