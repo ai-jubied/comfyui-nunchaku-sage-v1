@@ -117,9 +117,14 @@ start_ai_toolkit_stack() {
   if [[ -f "$AITK_REPO_DIR/ui/package.json" ]]; then
     echo "[ai-toolkit] installing UI dependencies (incl. dev) ..." >> /ai_toolkit_setup.log
     (cd "$AITK_REPO_DIR/ui" && npm install --include=dev >> /ai_toolkit_setup.log 2>&1)
-    echo "[ai-toolkit] updating DB (prisma) and building UI..." >> /ai_toolkit_setup.log
-    (cd "$AITK_REPO_DIR/ui" && npm run update_db >> /ai_toolkit_setup.log 2>&1)
-    (cd "$AITK_REPO_DIR/ui" && npm run build >> /ai_toolkit_setup.log 2>&1)
+    if ! (cd "$AITK_REPO_DIR/ui" && npm run update_db >> /ai_toolkit_setup.log 2>&1); then
+      echo "[ai-toolkit][warn] update_db failed; attempting to continue" >> /ai_toolkit_setup.log
+    fi
+    if ! (cd "$AITK_REPO_DIR/ui" && npm run build >> /ai_toolkit_setup.log 2>&1); then
+      echo "[ai-toolkit][ERROR] build failed; UI will not start. Check /ai_toolkit_setup.log" >> /ai_toolkit_setup.log
+      set -e
+      return 1
+    fi
     echo "[ai-toolkit] starting UI on :$AITK_UI_PORT (PATH prefixed with venv)" >> /ai_toolkit_setup.log
     # Stop placeholder and free the port before launching UI
     if [[ -n "${AITK_PLACEHOLDER_PID:-}" ]]; then
@@ -133,7 +138,7 @@ start_ai_toolkit_stack() {
         HOST="0.0.0.0" \
         PORT="$AITK_UI_PORT" \
         npm run start >> /ai_toolkit_ui.log 2>&1) &
-    wait
+    echo "[ai-toolkit] UI process launched (pid=$!)" >> /ai_toolkit_setup.log
   else
     echo "[ai-toolkit] ui/package.json not found; skipping UI start" >> /ai_toolkit_setup.log
   fi
@@ -293,9 +298,16 @@ if [[ -d /workspace/ComfyUI ]]; then
     echo "[comfyui] already on latest stable ($CURRENT_TAG)"
   fi
 
-  # Update the frontend package (no longer bundled in the repo)
+  # Update the frontend package — pin to the version ComfyUI's requirements specify
+  # This avoids accidentally installing a nightly/beta frontend
   echo "STAGE: Updating ComfyUI frontend"
-  pip install --upgrade comfyui-frontend-package >> /server.log 2>&1 || true
+  if [[ -f requirements.txt ]] && grep -q 'comfyui-frontend-package' requirements.txt; then
+    echo "[frontend] installing version from ComfyUI requirements.txt"
+    pip install $(grep 'comfyui-frontend-package' requirements.txt | head -1) >> /server.log 2>&1 || true
+  else
+    echo "[frontend] no pinned version found; installing latest stable"
+    pip install --upgrade comfyui-frontend-package >> /server.log 2>&1 || true
+  fi
 
   echo "STAGE: Updating custom nodes"
   if command -v comfy >/dev/null 2>&1; then
