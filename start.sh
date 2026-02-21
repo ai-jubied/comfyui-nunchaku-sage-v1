@@ -261,35 +261,6 @@ fi
 
 
 
-# --- Restore comfy_course workflows when NOT in student mode ---
-# Supports both pre-persist (/Comfy) and post-persist (/workspace/ComfyUI) layouts.
-if [[ "${STUDENT_MODE:-0}" != "1" ]]; then
-  target_user_dir=""
-  if [[ -d "/workspace/ComfyUI/user/default" ]]; then
-    target_user_dir="/workspace/ComfyUI/user/default"
-  elif [[ -d "/Comfy/user/default" ]]; then
-    target_user_dir="/Comfy/user/default"
-  fi
-
-  if [[ -n "$target_user_dir" ]]; then
-    rm -rf /tmp/comfy_course_tmp
-    # Avoid exiting the whole script if network is flaky; check directory before moving
-    if git clone --depth=1 https://github.com/jnxmx/comfycourse_json.git /tmp/comfy_course_tmp 2>/dev/null; then
-      mkdir -p "$target_user_dir/workflows"
-      if [[ -d "$target_user_dir/workflows/comfy_course" ]]; then
-        echo "[course] comfy_course present; replacing with latest"
-        rm -rf "$target_user_dir/workflows/comfy_course"
-      fi
-      mv /tmp/comfy_course_tmp "$target_user_dir/workflows/comfy_course"
-      rm -rf "$target_user_dir/workflows/comfy_course/.git"
-      echo "[course] comfy_course restored to $target_user_dir/workflows/comfy_course"
-    else
-      echo "[course][warn] failed to clone comfycourse_json; skipping restore"
-    fi
-  else
-    echo "[course] no Comfy user dir found; skipping comfy_course restore"
-  fi
-fi
 
 # --- Always set downloaderbackup repo in comfy.settings.json when COMFYUI_BACKUP is provided ---
 if [[ -n "${COMFYUI_BACKUP-}" ]]; then
