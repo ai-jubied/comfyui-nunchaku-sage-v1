@@ -37,7 +37,7 @@ Most RunPod templates give you a bare ComfyUI install. **ComfyUI Pro** gives you
 
 Experience **ultra-low latency** AI image and video generation with the most advanced acceleration stack available. This template combines **SageAttention 2.0** (up to 3x faster than FlashAttention2) with **Nunchaku** (MIT-HAN-LAB's 4-bit inference engine) to deliver maximum performance on NVIDIA GPUs.
 
-Built for **FLUX.1**, **Stable Diffusion 3.5**, **SDXL**, **HunyuanVideo**, **WanVideo**, and the latest quantized models — all pre-configured and ready to generate.
+Built for **FLUX.2**, **LTX-2**, **WAN2.2**, **Qwen**, **Z image Turbo**, and the latest quantized models — all pre-configured and ready to generate.
 
 ---
 
