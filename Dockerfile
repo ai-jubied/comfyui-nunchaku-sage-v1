@@ -66,8 +66,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Clone ComfyUI to /Comfy
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git /Comfy && \
+# Clone ComfyUI stable release to /Comfy
+RUN git clone --branch v0.14.2 --depth 1 https://github.com/comfyanonymous/ComfyUI.git /Comfy && \
     cd /Comfy && \
     pip install --no-cache-dir -r requirements.txt
 

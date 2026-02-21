@@ -307,7 +307,20 @@ fi
 # --- Update core + custom nodes when repos change (idempotent) ---
 if [[ -d /workspace/ComfyUI ]]; then
   echo "STAGE: Updating ComfyUI core"
-  update_and_install_requirements /workspace/ComfyUI || true
+  # Fetch and checkout the latest stable release tag
+  cd /workspace/ComfyUI
+  git fetch --tags --depth 1 || true
+  LATEST_TAG=$(git tag -l 'v*' --sort=-version:refname | head -n 1)
+  CURRENT_TAG=$(git describe --tags --exact-match 2>/dev/null || echo "none")
+  if [[ -n "$LATEST_TAG" && "$LATEST_TAG" != "$CURRENT_TAG" ]]; then
+    echo "[comfyui] updating from $CURRENT_TAG to $LATEST_TAG"
+    git checkout "$LATEST_TAG" -- 2>/dev/null || true
+    if [[ -f requirements.txt ]]; then
+      pip install -r requirements.txt || true
+    fi
+  else
+    echo "[comfyui] already on latest stable ($CURRENT_TAG)"
+  fi
 
   # Update the frontend package (no longer bundled in the repo)
   echo "STAGE: Updating ComfyUI frontend"
