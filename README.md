@@ -75,23 +75,10 @@ MIT-HAN-LAB's 4-bit inference engine — [ICLR 2025 Spotlight](http://arxiv.org/
 
 Professional LoRA training directly in your browser — no CLI needed.
 
-- Train LoRAs for **FLUX**, **SD 3.5**, **SDXL**, **Wan 2.2**, and more
+- Train LoRAs for **FLUX.2**, **Qwen***, **LTX-2**, **Wan 2.2**, and more
 - Configurable quantization (8-bit, 6-bit, 4-bit) for low-VRAM training
 - Slider LoRA training (prompt-only, no dataset required)
 - Built-in dataset management, job monitoring, and sample previews
-
----
-
-## 🎬 Supported Workflows
-
-| Workflow | Models | Status |
-|----------|--------|:------:|
-| **Text-to-Image** | FLUX.1, SD 3.5, SDXL, Qwen-Image, Z-Image | ✅ |
-| **Image-to-Image** | FLUX.1-Kontext, Qwen-Image-Edit | ✅ |
-| **Text-to-Video** | WanVideo 2.1/2.2 (14B & 1.3B), HunyuanVideo | ✅ |
-| **Image-to-Video** | WanVideo I2V, HunyuanVideo I2V | ✅ |
-| **LoRA Training** | FLUX, SD 3.5, SDXL, Wan 2.2 | ✅ |
-| **4-Bit Inference** | All Nunchaku quantized models | ✅ |
 
 ---
 
