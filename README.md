@@ -75,7 +75,7 @@ MIT-HAN-LAB's 4-bit inference engine — [ICLR 2025 Spotlight](http://arxiv.org/
 
 Professional LoRA training directly in your browser — no CLI needed.
 
-- Train LoRAs for **FLUX.2**, **Qwen***, **LTX-2**, **Wan 2.2**, and more
+- Train LoRAs for **FLUX.2**, **Qwen**, **LTX-2**, **Wan 2.2**, and more
 - Configurable quantization (8-bit, 6-bit, 4-bit) for low-VRAM training
 - Slider LoRA training (prompt-only, no dataset required)
 - Built-in dataset management, job monitoring, and sample previews
